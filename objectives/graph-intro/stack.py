@@ -20,6 +20,9 @@ class Stack:
 
             return removed_item
 
+    def length(self):
+        return self._length
+
 
 if __name__ == '__main__':
     myStack = Stack()

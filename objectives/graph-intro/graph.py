@@ -1,9 +1,13 @@
 from queue import Queue
+from stack import Stack
 
 
 class Graph:
     def __init__(self):
         self.vertices = {}
+
+    def __str__(self):
+        return f"{self.vertices}"
 
     def add_vertex(self, vertex_id):
         if vertex_id is not None:
@@ -27,7 +31,6 @@ class Graph:
         while queue.length() > 0:
             # dequeue the first vertex
             vertex = queue.dequeue()
-            print(vertex)
 
             # if current vertex has not been visited
             if vertex not in visited:
@@ -39,6 +42,28 @@ class Graph:
                 for next_vertex in self.vertices[vertex]:
                     queue.enqueue(next_vertex)
 
+    def dept_first_traversal(self, start_index_id):
+        # Create new stack and push in starting index
+        stack = Stack()
+        stack.push(start_index_id)
+
+        # Store visited vertices
+        visited = set()
+
+        while stack.length() > 0:
+            # remove the first vertex
+            vertex = stack.pop()
+
+            # check if current vertex has not been visited
+            if vertex not in visited:
+                # mark as visited by add it to visited and printing it out
+                # print(vertex)
+                visited.add(vertex)
+
+                # Add all of it's neighbor's to the top of the stack
+                for next_vertex in self.vertices[vertex]:
+                    stack.push(next_vertex)
+
 
 graph = Graph()
 graph.add_vertex('0')
@@ -49,4 +74,6 @@ graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 # graph.add_edge('0', '4')
-print(graph.breath_first_traversal('0'))
+# print(graph.breath_first_traversal('0'))
+# print(graph)
+graph.dept_first_traversal('0')
