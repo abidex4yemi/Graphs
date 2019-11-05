@@ -14,14 +14,17 @@ class Queue:
             self._length += 1
 
     def dequeue(self):
-        if self._length:
+        if self._length > 0:
             removed_item = self._storage[self._startIndex]
             del self._storage[self._startIndex]
 
             self._length -= 1
             self._startIndex += 1
 
-            return self._length
+            return removed_item
+
+    def length(self):
+        return self._length
 
 
 if __name__ == '__main__':
