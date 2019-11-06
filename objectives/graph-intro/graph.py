@@ -113,7 +113,7 @@ class Graph:
         # create an empty visited set
         visited = set()
         # while the queue is not empty
-        while q.size() > 0:
+        while q.length() > 0:
             # set vert to the dequeued element
             vert = q.dequeue()
             # if the vert is not in visited
@@ -139,7 +139,7 @@ class Graph:
         # created an empty visited set
         visited = set()
         # while the queue is not empty
-        while q.size() > 0:
+        while q.length() > 0:
             # dequeue to the path
             path = q.dequeue()
             # set a vert to the last item in the path
@@ -171,7 +171,7 @@ class Graph:
         # created an empty visited set
         visited = set()
         # while the queue is not empty
-        while s.size() > 0:
+        while s.length() > 0:
             # pop to the path
             path = s.pop()
             # set a vert to the last item in the path
