@@ -1,58 +1,171 @@
 """
 Simple graph implementation
 """
-from util import Stack, Queue  # These may come in handy
+# These may come in handy
+
+from queue import Queue
+from stack import Stack
+
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
         self.vertices = {}
-    def add_vertex(self, vertex):
+
+    def __str__(self):
+        return f"{self.vertices}"
+
+    def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        if vertex_id is not None:
+            self.vertices[vertex_id] = set()
+
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
-    def bft(self, starting_vertex):
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise KeyError("Vertex does not exist")
+
+    def bft(self, starting_vertex_id):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
-    def dft(self, starting_vertex):
+        # Instantiate queue and enqueue the starting vertex ID
+        queue = Queue()
+        queue.enqueue(starting_vertex_id)
+
+        # store visited vertices
+        visited = set()
+
+        # loop over vertices while queue not empty
+        while queue.length() > 0:
+            # dequeue the first vertex
+            vertex = queue.dequeue()
+
+            # if current vertex has not been visited
+            if vertex not in visited:
+                # mark it as visited by printing it out
+                # print(vertex)
+                visited.add(vertex)
+
+                # add all other neighbor to the back of the queue
+                for next_vertex in self.vertices[vertex]:
+                    queue.enqueue(next_vertex)
+
+    def dft(self, start_index_id):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
-    def dft_recursive(self, starting_vertex):
+        # Create new stack and push in starting index
+        stack = Stack()
+        stack.push(start_index_id)
+
+        # Store visited vertices
+        visited = set()
+
+        while stack.length() > 0:
+            # remove the first vertex
+            vertex = stack.pop()
+
+            # check if current vertex has not been visited
+            if vertex not in visited:
+                # mark as visited by add it to visited and printing it out
+                # print(vertex)
+                visited.add(vertex)
+
+                # Add all of it's neighbor's to the top of the stack
+                for next_vertex in self.vertices[vertex]:
+                    stack.push(next_vertex)
+
+    def dft_recursive(self, start_vert, visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
-    def bfs(self, starting_vertex, destination_vertex):
+        # if the visited structure is set to None
+        if visited is None:
+            # create a new set for visited
+            visited = set()
+
+        # add a starting vertex to the visited set
+        visited.add(start_vert)
+        # print the start vertex
+        print(start_vert)
+        # loop over every child vertex in vertices set at the start vertex
+        for child_vert in self.vertices[start_vert]:
+            # if child vertex is not in visited
+            if child_vert not in visited:
+                # do a recursive call to dft_recursive
+                # using the child vertex and the current
+                #  visited set as arguments
+                self.dft_recursive(child_vert, visited)
+
+    def bfs(self, starting_vertex_id, target_value):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
-    def dfs(self, starting_vertex, destination_vertex):
+        # create a queue to hold the vertex ids
+        q = Queue()
+        # enqueue the start vertex id
+        q.enqueue(starting_vertex_id)
+        # create an empty visited set
+        visited = set()
+        # while the queue is not empty
+        while q.length() > 0:
+            # set vert to the dequeued element
+            vert = q.dequeue()
+            # if the vert is not in visited
+            if vert not in visited:
+                # if vert is target value
+                if vert == target_value:
+                    # return True
+                    return True
+                # add the vert to visited set
+                visited.add(vert)
+                # loop over next vert in the vertices at the index of vert
+                for next_vert in self.vertices[vert]:
+                    # enqueue the next vert
+                    q.enqueue(next_vert)
+        # return False
+        return False
+
+    def dfs(self, start_vert, target_value, visited=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
-
-
-
+        # if visited is None
+        if visited is None:
+            # create a new set of visited
+            visited = set()
+        # add start vert to visited
+        visited.add(start_vert)
+        # if the start vert is equal to the target value
+        if start_vert == target_value:
+            # return True
+            return True
+        # loop over every child vertex in vertices set at the start vertex
+        for child_vert in self.vertices[start_vert]:
+            # if child vert is not in visited
+            if child_vert not in visited:
+                # if the recursive call to dfs
+                if self.dfs(child_vert, target_value, visited):
+                    # return True
+                    return True
+        # Return False
+        return False
 
 
 if __name__ == '__main__':
